@@ -37,6 +37,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ filters, onFiltersChange 
         const params = {
           startDate: filters.dateRange?.startDate,
           endDate: filters.dateRange?.endDate,
+          serviceName: filters.selectedServices.length > 0 ? filters.selectedServices : undefined,
           region: filters.selectedRegions.length > 0 ? filters.selectedRegions : undefined,
           accountId: filters.selectedAccounts.length > 0 ? filters.selectedAccounts : undefined,
         };

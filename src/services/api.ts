@@ -147,6 +147,7 @@ export const costApi = {
   getCostSummary: async (params: {
     startDate?: string;
     endDate?: string;
+    serviceName?: string | string[];
     region?: string | string[];
     accountId?: string | string[];
   }): Promise<ApiResponse<CostSummary[]>> => {

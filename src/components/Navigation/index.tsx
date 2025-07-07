@@ -1,6 +1,7 @@
 import { AppBar, Avatar, Box, Divider, IconButton, Menu, MenuItem, Tab, Tabs, Toolbar, Typography } from '@mui/material';
 import { Dashboard as DashboardIcon, Logout, Person, TableChart as TableIcon } from '@mui/icons-material';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../../contexts/AuthContext';
 import { log } from '../../utils/logger';
@@ -14,6 +15,7 @@ interface NavigationProps {
 const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange }) => {
   const { user, logout } = useAuth();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const navigate = useNavigate();
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     onTabChange(newValue);
@@ -31,6 +33,7 @@ const Navigation: React.FC<NavigationProps> = ({ currentTab, onTabChange }) => {
     try {
       await logout();
       handleClose();
+      navigate('/');
     } catch (error) {
       log.error('Logout error', { error: error instanceof Error ? error.message : 'Unknown error' });
     }
