@@ -135,9 +135,9 @@ export const costApi = {
     limit?: number;
     startDate?: string;
     endDate?: string;
-    serviceName?: string;
-    region?: string;
-    accountId?: string;
+    serviceName?: string | string[];
+    region?: string | string[];
+    accountId?: string | string[];
   }): Promise<ApiResponse<CostRecord[]>> => {
     const response = await api.get('/costs', { params });
     return response.data;
@@ -147,8 +147,8 @@ export const costApi = {
   getCostSummary: async (params: {
     startDate?: string;
     endDate?: string;
-    region?: string;
-    accountId?: string;
+    region?: string | string[];
+    accountId?: string | string[];
   }): Promise<ApiResponse<CostSummary[]>> => {
     const response = await api.get('/costs/summary', { params });
     return response.data;
@@ -158,9 +158,9 @@ export const costApi = {
   getCostTrends: async (params: {
     startDate?: string;
     endDate?: string;
-    serviceName?: string;
-    region?: string;
-    accountId?: string;
+    serviceName?: string | string[];
+    region?: string | string[];
+    accountId?: string | string[];
   }): Promise<ApiResponse<CostTrend[]>> => {
     const response = await api.get('/costs/trends', { params });
     return response.data;

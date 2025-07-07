@@ -3,6 +3,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { Clear, FilterList, Refresh } from '@mui/icons-material';
+import { format } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 
 import { costApi } from '../services/api';
@@ -40,8 +41,26 @@ const CostFilters: React.FC<CostFiltersProps> = ({ filters, onFiltersChange }) =
   const handleDateRangeChange = (key: 'startDate' | 'endDate', value: Date | null) => {
     const prev = filters.dateRange || { startDate: '', endDate: '' };
     const newDateRange = {
-      startDate: key === 'startDate' ? (value ? value.toISOString().slice(0, 10) : '') : prev.startDate || '',
-      endDate: key === 'endDate' ? (value ? value.toISOString().slice(0, 10) : '') : prev.endDate || '',
+      startDate: key === 'startDate' ? (value ? format(value, 'yyyy-MM-dd') : '') : prev.startDate,
+      endDate: key === 'endDate' ? (value ? format(value, 'yyyy-MM-dd') : '') : prev.endDate,
+    };
+    onFiltersChange({ ...filters, dateRange: newDateRange });
+  };
+
+  const handleClearStartDate = () => {
+    const prev = filters.dateRange || { startDate: '', endDate: '' };
+    const newDateRange = {
+      startDate: '',
+      endDate: prev.endDate,
+    };
+    onFiltersChange({ ...filters, dateRange: newDateRange });
+  };
+
+  const handleClearEndDate = () => {
+    const prev = filters.dateRange || { startDate: '', endDate: '' };
+    const newDateRange = {
+      startDate: prev.startDate,
+      endDate: '',
     };
     onFiltersChange({ ...filters, dateRange: newDateRange });
   };
@@ -98,7 +117,7 @@ const CostFilters: React.FC<CostFiltersProps> = ({ filters, onFiltersChange }) =
                       endAdornment: filters.dateRange?.startDate ? (
                         <InputAdornment position="end">
                           <Tooltip title="Clear">
-                            <IconButton size="small" onClick={() => handleClear('dateRange')}>
+                            <IconButton size="small" onClick={handleClearStartDate}>
                               <Clear fontSize="small" />
                             </IconButton>
                           </Tooltip>
@@ -126,7 +145,7 @@ const CostFilters: React.FC<CostFiltersProps> = ({ filters, onFiltersChange }) =
                       endAdornment: filters.dateRange?.endDate ? (
                         <InputAdornment position="end">
                           <Tooltip title="Clear">
-                            <IconButton size="small" onClick={() => handleClear('dateRange')}>
+                            <IconButton size="small" onClick={handleClearEndDate}>
                               <Clear fontSize="small" />
                             </IconButton>
                           </Tooltip>

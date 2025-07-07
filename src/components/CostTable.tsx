@@ -30,9 +30,9 @@ const CostTable: React.FC<CostTableProps> = ({ filters }) => {
         limit: rowsPerPage,
         startDate: filters.dateRange?.startDate,
         endDate: filters.dateRange?.endDate,
-        serviceName: filters.selectedServices.length === 1 ? filters.selectedServices[0] : undefined,
-        region: filters.selectedRegions.length === 1 ? filters.selectedRegions[0] : undefined,
-        accountId: filters.selectedAccounts.length === 1 ? filters.selectedAccounts[0] : undefined,
+        serviceName: filters.selectedServices.length > 0 ? filters.selectedServices : undefined,
+        region: filters.selectedRegions.length > 0 ? filters.selectedRegions : undefined,
+        accountId: filters.selectedAccounts.length > 0 ? filters.selectedAccounts : undefined,
       };
 
       const response = await costApi.getCostRecords(params);
