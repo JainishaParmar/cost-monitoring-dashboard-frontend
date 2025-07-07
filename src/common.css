@@ -1,0 +1,297 @@
+/* Common reusable styles for dashboard UI - Modern Color Polish */
+
+.common-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafd 0%, #e9eefa 100%);
+  padding: 32px 16px 48px 16px;
+}
+
+
+
+.dashboard-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 28px;
+  margin-bottom: 36px;
+}
+
+.dashboard-charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 32px;
+  margin-bottom: 40px;
+}
+
+.common-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(44,62,80,0.10), 0 1.5px 4px rgba(44,62,80,0.04);
+  padding: 32px 28px 28px 28px;
+  transition: box-shadow 0.2s, transform 0.2s, border 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 120px;
+  min-width: 0;
+  border: 1.5px solid #f0f2fa;
+}
+.common-card:hover {
+  box-shadow: 0 8px 32px rgba(44,62,80,0.16), 0 2px 8px rgba(44,62,80,0.08);
+  transform: translateY(-2px) scale(1.01);
+  border: 1.5px solid #a3bffa;
+}
+
+.common-chart-container {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(44,62,80,0.10), 0 1.5px 4px rgba(44,62,80,0.04);
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  border: 1.5px solid #f0f2fa;
+  transition: box-shadow 0.2s, border 0.2s;
+}
+.common-chart-container:hover {
+  box-shadow: 0 8px 32px rgba(44,62,80,0.16), 0 2px 8px rgba(44,62,80,0.08);
+  border: 1.5px solid #a3bffa;
+}
+
+.common-filter-bar {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(44,62,80,0.07);
+  padding: 10px 18px 6px 18px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px 0;
+  border: 1.5px solid #e3e9f3;
+  min-width: 0;
+  transition: box-shadow 0.2s, border 0.2s;
+}
+
+.common-filter-bar > .MuiBox-root {
+  padding: 0;
+  margin-bottom: 0;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+}
+
+.common-filter-controls {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  width: 100%;
+}
+
+.common-filter-bar .MuiFormControl-root,
+.common-filter-bar .MuiInputBase-root,
+.common-filter-bar .MuiGrid-root {
+  min-width: 0 !important;
+  width: 100% !important;
+  flex: 1 1 100% !important;
+}
+
+
+
+@media (max-width: 1200px) {
+  .dashboard-summary-grid, .dashboard-charts-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .common-chart-container, .common-card {
+    padding: 18px 8px;
+    min-height: 120px;
+  }
+  .common-filter-bar {
+    padding: 12px 10px 8px 10px;
+    gap: 10px 16px;
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 900px) {
+  .common-filter-bar {
+    padding: 6px 4px 2px 4px;
+    gap: 8px 0;
+  }
+  .common-filter-controls {
+    flex-direction: column;
+    gap: 8px 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .common-card, .common-chart-container {
+    border-radius: 12px;
+    min-height: 80px;
+    padding: 10px 4px;
+  }
+  .common-filter-bar {
+    border-radius: 10px;
+    padding: 6px 2px 2px 2px;
+    margin-bottom: 8px;
+    gap: 6px 0;
+  }
+  .common-filter-controls {
+    gap: 6px 0;
+  }
+}
+
+
+
+/* Button and input enhancements */
+.common-filter-bar button, .common-filter-bar .MuiButton-root {
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+  font-size: 1rem !important;
+  box-shadow: none !important;
+  background: linear-gradient(90deg, #e3e9f3 0%, #fafdff 100%);
+  color: #4a4a6a;
+  transition: background 0.2s, color 0.2s;
+}
+.common-filter-bar button:hover, .common-filter-bar .MuiButton-root:hover {
+  background: linear-gradient(90deg, #a3bffa 0%, #d6e0ff 100%);
+  color: #222b45;
+}
+
+.common-filter-bar .MuiInputBase-root, .common-filter-bar .MuiFormControl-root {
+  background: #fff;
+  border-radius: 8px;
+}
+
+.common-filter-bar .MuiOutlinedInput-notchedOutline {
+  border-color: #e3e9f3 !important;
+}
+
+.common-filter-bar .Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #667eea !important;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Error Alert Styles */
+.error-alert {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+  color: white;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+  border-left: 4px solid #d63031;
+  animation: slideIn 0.3s ease-out;
+}
+
+.error-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.error-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.error-message {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.error-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.error-close:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Network error specific styling */
+.error-alert.network-error {
+  background: linear-gradient(135deg, #74b9ff, #0984e3);
+  border-left-color: #0984e3;
+  box-shadow: 0 4px 12px rgba(116, 185, 255, 0.3);
+}
+
+/* Success Alert Styles */
+.success-alert {
+  background: linear-gradient(135deg, #00b894, #00a085);
+  color: white;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(0, 184, 148, 0.3);
+  border-left: 4px solid #00a085;
+  animation: slideIn 0.3s ease-out;
+}
+
+.success-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.success-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.success-message {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.success-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.success-close:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}

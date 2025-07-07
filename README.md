@@ -1,46 +1,77 @@
-# Getting Started with Create React App
+# Cost Monitoring Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, interactive dashboard for monitoring and analyzing cloud cost data. Built with React, TypeScript, Material-UI, and Recharts.
 
-## Available Scripts
+## Features
+- **User Authentication**: Secure login/logout, protected routes
+- **Dashboard**: Cost summary cards (total cost, total records, average daily cost, services)
+- **Charts**: Visualize cost trends and service breakdowns
+- **Filtering**: By date range, service, region, and account
+- **Table View**: Detailed cost records
+- **Responsive UI**: Material-UI, modern UX, error/success alerts
 
-In the project directory, you can run:
+## Project Structure
+```
+src/
+  components/      # UI components (dashboard, filters, navigation, etc.)
+  services/        # API and authentication logic
+  contexts/        # React context for authentication
+  types/           # TypeScript types
+  utils/           # Utility functions (error handling, logging)
+  App.tsx, index.tsx, common.css
+public/
+  index.html, favicon.ico, ...
+```
 
-### `npm start`
+## Getting Started
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Prerequisites
+- Node.js (v14+ recommended)
+- npm
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Installation
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. (Optional) Create a `.env` file in the root to override API URLs (see below)
+4. Start the development server:
+   ```bash
+   npm start
+   ```
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
+6. Sign up with email password then login
 
-### `npm test`
+### Available Scripts
+- `npm start` — Run the app in development mode
+- `npm run build` — Build the app for production
+- `npm run eject` — Eject from Create React App (not recommended)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Environment Variables
+Create a `.env` file in the project root to override defaults:
+```
+REACT_APP_API_URL=http://localhost:5000/api
+REACT_APP_AUTH_API_URL=/api/auth
+```
+- `REACT_APP_API_URL`: Base URL for backend API (default: `http://localhost:5000/api`)
+- `REACT_APP_AUTH_API_URL`: Base URL for authentication API (default: `/api/auth`)
 
-### `npm run build`
+### Proxy
+- The frontend proxies API requests to `http://localhost:5000` (see `package.json`)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Build for Production
+- Run `npm run build` and deploy the contents of the `build/` directory
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Testing
+- Run `npm test` to execute tests
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Main Dependencies
+- React, Material-UI, Recharts, Axios, Date-fns, React Router, TypeScript
 
-### `npm run eject`
+## Customization
+- Update environment variables in `.env` as needed
+- Adjust UI and logic in `src/components/` and `src/services/`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Contribution
+- Fork the repo, create a feature branch, and submit a pull request
