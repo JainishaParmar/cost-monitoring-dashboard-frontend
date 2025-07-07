@@ -1,0 +1,96 @@
+.navigation-appbar {
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(44,62,80,0.08);
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+  min-height: 64px;
+  z-index: 1200;
+}
+
+.navigation-toolbar {
+  min-height: 64px;
+  padding-left: 16px;
+  padding-right: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (min-width: 900px) {
+  .navigation-toolbar {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
+
+.navigation-title {
+  font-weight: 800;
+  font-size: 1.5rem;
+  letter-spacing: -1px;
+  color: #fff;
+  font-family: Inter, Roboto, Arial, sans-serif;
+}
+
+.navigation-tabs-container {
+  flex-grow: 1;
+  display: none;
+  justify-content: center;
+}
+
+@media (min-width: 900px) {
+  .navigation-tabs-container {
+    display: flex;
+  }
+}
+
+.navigation-tabs .MuiTab-root {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.7);
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-radius: 0;
+  background: none;
+  transition: color 0.2s;
+  min-height: 48px;
+}
+
+.navigation-tabs .MuiTab-root:hover {
+  background: none;
+  color: #fff;
+}
+
+.navigation-tabs .Mui-selected {
+  color: #fff;
+  font-weight: 800;
+}
+
+.navigation-tabs .MuiTabs-indicator {
+  background: #fff;
+  height: 3px;
+  border-radius: 2px;
+}
+
+.navigation-avatar-button {
+  padding: 0;
+}
+
+.navigation-avatar {
+  background-color: #fff;
+  color: #764ba2;
+  font-weight: 700;
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+}
+
+.navigation-menu-icon {
+  margin-right: 8px;
+}
+
+.navigation-menu-paper {
+  margin-top: 12px;
+  min-width: 160px;
+} 

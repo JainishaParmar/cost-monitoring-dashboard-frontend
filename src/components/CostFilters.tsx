@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 
 import { costApi } from '../services/api';
 import { CostFilters as CostFiltersType, FilterState } from '../types';
+import './CostFilters.css';
 
 interface CostFiltersProps {
   filters: FilterState;
@@ -65,66 +66,25 @@ const CostFilters: React.FC<CostFiltersProps> = ({ filters, onFiltersChange }) =
 
   return (
     <div className="common-filter-bar">
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: { xs: 'column', sm: 'row' },
-          alignItems: { xs: 'stretch', sm: 'center' },
-          justifyContent: 'space-between',
-          mb: 2,
-          gap: { xs: 2, sm: 0 },
-          px: { xs: 1, sm: 2 },
-        }}
-      >
-        <Box display="flex" alignItems="center" sx={{ mb: { xs: 1, sm: 0 } }}>
-          <FilterList sx={{ mr: 1, color: 'primary.main' }} />
+      <Box className="cost-filters-header">
+        <Box display="flex" alignItems="center" className="cost-filters-title-container">
+          <FilterList className="cost-filters-title-icon" />
           <Typography variant="h6" fontWeight={700} mr={2} color="text.primary">Filters</Typography>
         </Box>
         <Button
           onClick={handleResetAll}
           size="small"
           startIcon={<Refresh />}
-          sx={{
-            color: 'primary.main',
-            fontWeight: 700,
-            textTransform: 'none',
-            px: 2,
-            py: 1,
-            borderRadius: 2,
-            background: 'rgba(102,126,234,0.08)',
-            boxShadow: 'none',
-            width: { xs: '100%', sm: 'auto' },
-            alignSelf: { xs: 'stretch', sm: 'center' },
-            mt: { xs: 1, sm: 0 },
-            '&:hover': {
-              background: 'rgba(102,126,234,0.18)',
-              boxShadow: 'none',
-            },
-          }}
+          className="cost-filters-reset-button"
         >
           Reset All Filters
         </Button>
       </Box>
       <div className="common-filter-controls">
         <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: { xs: 'column', md: 'row' },
-              flexWrap: { xs: 'nowrap', md: 'wrap' },
-              gap: 2,
-              alignItems: { xs: 'stretch', md: 'center' },
-              width: '100%',
-            }}
-          >
+          <Box className="cost-filters-controls">
             {/* Start Date */}
-            <Box
-              sx={{
-                flex: '1 1 0',
-                minWidth: { xs: '100%', sm: 120 },
-                mb: { xs: 2, md: 0 },
-              }}
-            >
+            <Box className="cost-filters-date-box">
               <DatePicker
                 label="Start Date"
                 value={filters.dateRange?.startDate ? new Date(filters.dateRange.startDate) : null}
@@ -150,13 +110,7 @@ const CostFilters: React.FC<CostFiltersProps> = ({ filters, onFiltersChange }) =
               />
             </Box>
             {/* End Date */}
-            <Box
-              sx={{
-                flex: '1 1 0',
-                minWidth: { xs: '100%', sm: 120 },
-                mb: { xs: 2, md: 0 },
-              }}
-            >
+            <Box className="cost-filters-date-box">
               <DatePicker
                 label="End Date"
                 value={filters.dateRange?.endDate ? new Date(filters.dateRange.endDate) : null}
@@ -184,13 +138,7 @@ const CostFilters: React.FC<CostFiltersProps> = ({ filters, onFiltersChange }) =
               />
             </Box>
             {/* Services */}
-            <Box
-              sx={{
-                flex: '1 1 0',
-                minWidth: { xs: '100%', sm: 100 },
-                mb: { xs: 2, md: 0 },
-              }}
-            >
+            <Box className="cost-filters-select-box">
               <FormControl fullWidth size="small">
                 <InputLabel>Services</InputLabel>
                 <Select
@@ -199,7 +147,7 @@ const CostFilters: React.FC<CostFiltersProps> = ({ filters, onFiltersChange }) =
                   onChange={handleServiceChange}
                   input={<OutlinedInput label="Services" />}
                   renderValue={(selected) => (
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                    <Box className="cost-filters-chip-container">
                       {(selected as string[]).map((value) => (
                         <Chip key={value} label={value} size="small" />
                       ))}
@@ -240,7 +188,7 @@ const CostFilters: React.FC<CostFiltersProps> = ({ filters, onFiltersChange }) =
                   onChange={handleRegionChange}
                   input={<OutlinedInput label="Regions" />}
                   renderValue={(selected) => (
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                    <Box className="cost-filters-chip-container">
                       {(selected as string[]).map((value) => (
                         <Chip key={value} label={value} size="small" />
                       ))}
@@ -281,7 +229,7 @@ const CostFilters: React.FC<CostFiltersProps> = ({ filters, onFiltersChange }) =
                   onChange={handleAccountChange}
                   input={<OutlinedInput label="Accounts" />}
                   renderValue={(selected) => (
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                    <Box className="cost-filters-chip-container">
                       {(selected as string[]).map((value) => (
                         <Chip key={value} label={value} size="small" />
                       ))}
