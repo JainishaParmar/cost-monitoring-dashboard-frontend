@@ -37,8 +37,8 @@ const DashboardView: React.FC<DashboardViewProps> = ({ filters, onFiltersChange 
         const params = {
           startDate: filters.dateRange?.startDate,
           endDate: filters.dateRange?.endDate,
-          region: filters.selectedRegions.length === 1 ? filters.selectedRegions[0] : undefined,
-          accountId: filters.selectedAccounts.length === 1 ? filters.selectedAccounts[0] : undefined,
+          region: filters.selectedRegions.length > 0 ? filters.selectedRegions : undefined,
+          accountId: filters.selectedAccounts.length > 0 ? filters.selectedAccounts : undefined,
         };
         const [summaryResponse, trendsResponse] = await Promise.all([
           costApi.getCostSummary(params),
@@ -134,7 +134,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ filters, onFiltersChange 
 
   return (
     <div className="common-container">
-      <ErrorAlert error={error} />
+      <ErrorAlert error={error} onClose={() => setError(null)} />
 
       <FilterContainer>
         <CostFilters filters={filters} onFiltersChange={onFiltersChange} />

@@ -78,14 +78,18 @@ export const refreshAccessToken = async (): Promise<AuthTokens | null> => {
     return null;
   } catch (error) {
     log.error('Token refresh error', { error: error instanceof Error ? error.message : 'Unknown error' });
-    clearTokens();
+    // Don't clear tokens on network errors, only on auth errors
+    if (error instanceof Error && error.message.includes('Token refresh failed')) {
+      clearTokens();
+    }
     return null;
   }
 };
 
-// API request helper with automatic token refresh
-const apiRequest = async (endpoint: string, options: RequestInit = {}): Promise<any> => {
+// API request helper with automatic token refresh and retry logic
+const apiRequest = async (endpoint: string, options: RequestInit = {}, retryCount = 0): Promise<any> => {
   const url = `${API_BASE_URL}${endpoint}`;
+  const maxRetries = 3;
   
   const config: RequestInit = {
     headers: {
@@ -112,7 +116,20 @@ const apiRequest = async (endpoint: string, options: RequestInit = {}): Promise<
 
     return data;
   } catch (error) {
-    log.error('API request error', { error: error instanceof Error ? error.message : 'Unknown error' });
+    log.error('API request error', { 
+      error: error instanceof Error ? error.message : 'Unknown error',
+      retryCount,
+      endpoint 
+    });
+    
+    // Retry on network errors (not auth errors)
+    if (retryCount < maxRetries && error instanceof Error && 
+        (error.message.includes('Failed to fetch') || error.message.includes('NetworkError'))) {
+      log.info(`Retrying request (${retryCount + 1}/${maxRetries})`, { endpoint });
+      await new Promise(resolve => setTimeout(resolve, 1000 * (retryCount + 1))); // Exponential backoff
+      return apiRequest(endpoint, options, retryCount + 1);
+    }
+    
     throw error;
   }
 };

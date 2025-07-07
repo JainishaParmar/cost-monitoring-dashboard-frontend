@@ -40,7 +40,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     let refreshInterval: NodeJS.Timeout;
 
     const setupTokenRefresh = () => {
-      // Refresh token every 14 minutes (before the 15-minute expiration)
+      // Refresh token every 25 minutes (before the 30-minute expiration)
       refreshInterval = setInterval(async () => {
         try {
           if (isAuthenticated()) {
@@ -53,7 +53,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           authLogout();
           setUser(null);
         }
-      }, 14 * 60 * 1000); // 14 minutes
+      }, 25 * 60 * 1000); // 25 minutes
     };
 
     if (isAuthenticated()) {
@@ -94,8 +94,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
     } catch (error) {
       log.error('Auth check error', { error: error instanceof Error ? error.message : 'Unknown error' });
-      authLogout();
-      setUser(null);
+      
+      // Handle network errors differently - don't logout immediately
+      if (error instanceof Error && 
+          (error.message.includes('Failed to fetch') || error.message.includes('NetworkError'))) {
+        log.warn('Network error during auth check, will retry later');
+        // Don't clear tokens on network errors, just set user to null temporarily
+        setUser(null);
+      } else {
+        // For auth errors, clear tokens and logout
+        authLogout();
+        setUser(null);
+      }
     } finally {
       setLoading(false);
     }

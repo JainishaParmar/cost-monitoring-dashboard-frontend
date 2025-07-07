@@ -7,6 +7,7 @@ import { handleApiError } from '../utils/errorHandler';
 import ErrorAlert from './ErrorAlert';
 import SuccessAlert from './SuccessAlert';
 import FormField from './FormField';
+import './Login.css';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -75,31 +76,19 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        bgcolor: 'grey.50',
-      }}
-    >
+    <Box className="login-container">
       <Paper
         elevation={3}
-        sx={{
-          p: 4,
-          width: '100%',
-          maxWidth: 400,
-        }}
+        className="login-paper"
       >
         <Typography variant="h4" component="h1" gutterBottom align="center">
           {isSignup ? 'Sign Up' : 'Sign In'}
         </Typography>
-        <Typography variant="body2" color="text.secondary" align="center" sx={{ mb: 3 }}>
+        <Typography variant="body2" color="text.secondary" align="center" className="login-subtitle">
           {isSignup ? 'Create a new account' : 'Enter your credentials to access the dashboard'}
         </Typography>
-        <ErrorAlert error={error} />
-        <SuccessAlert message={success} />
+        <ErrorAlert error={error} onClose={() => setError('')} />
+        <SuccessAlert message={success} onClose={() => setSuccess('')} />
         <Box component="form" onSubmit={handleSubmit}>
           <FormField
             label="Email"
@@ -120,7 +109,7 @@ const Login: React.FC = () => {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            className="login-submit-button"
             disabled={loading}
           >
             {loading ? (
@@ -132,18 +121,18 @@ const Login: React.FC = () => {
             )}
           </Button>
         </Box>
-        <div style={{ marginTop: 16, textAlign: 'center' }}>
+        <div className="login-switch-container">
           {isSignup ? (
             <span>
               Already have an account?{' '}
-              <button type="button" onClick={switchToLogin} style={{ color: 'blue', background: 'none', border: 'none', cursor: 'pointer' }}>
+              <button type="button" onClick={switchToLogin} className="login-switch-button">
                 Sign In
               </button>
             </span>
           ) : (
             <span>
               Don&apos;t have an account?{' '}
-              <button type="button" onClick={switchToSignup} style={{ color: 'blue', background: 'none', border: 'none', cursor: 'pointer' }}>
+              <button type="button" onClick={switchToSignup} className="login-switch-button">
                 Sign Up
               </button>
             </span>
