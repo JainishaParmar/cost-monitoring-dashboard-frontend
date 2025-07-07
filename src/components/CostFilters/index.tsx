@@ -6,9 +6,9 @@ import { Clear, FilterList, Refresh } from '@mui/icons-material';
 import { format } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 
-import { costApi } from '../services/api';
-import { CostFilters as CostFiltersType, FilterState } from '../types';
-import './CostFilters.css';
+import { costApi } from '../../services/api';
+import { CostFilters as CostFiltersType, FilterState } from '../../types';
+import './styles.css';
 
 interface CostFiltersProps {
   filters: FilterState;

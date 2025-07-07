@@ -2,9 +2,9 @@ import { AppBar, Avatar, Box, Divider, IconButton, Menu, MenuItem, Tab, Tabs, To
 import { Dashboard as DashboardIcon, Logout, Person, TableChart as TableIcon } from '@mui/icons-material';
 import React, { useState } from 'react';
 
-import { useAuth } from '../contexts/AuthContext';
-import { log } from '../utils/logger';
-import './Navigation.css';
+import { useAuth } from '../../contexts/AuthContext';
+import { log } from '../../utils/logger';
+import './styles.css';
 
 interface NavigationProps {
   currentTab: number;
