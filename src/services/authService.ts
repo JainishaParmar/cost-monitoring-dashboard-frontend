@@ -2,7 +2,7 @@ import { AuthTokens, LoginResponse } from '../types/auth';
 import { log } from '../utils/logger';
 
 // Use proxy, but always prefix with /api/auth for auth endpoints
-const API_BASE_URL = '/api/auth';
+const API_BASE_URL = process.env.REACT_APP_AUTH_API_URL || '/api/auth';
 
 // Token storage keys
 const ACCESS_TOKEN_KEY = 'accessToken';

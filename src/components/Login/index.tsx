@@ -2,12 +2,12 @@ import { Box, Button, CircularProgress, Paper, Typography } from '@mui/material'
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useAuth } from '../contexts/AuthContext';
-import { handleApiError } from '../utils/errorHandler';
-import ErrorAlert from './ErrorAlert';
-import SuccessAlert from './SuccessAlert';
-import FormField from './FormField';
-import './Login.css';
+import { useAuth } from '../../contexts/AuthContext';
+import { handleApiError } from '../../utils/errorHandler';
+import ErrorAlert from '../ErrorAlert';
+import SuccessAlert from '../SuccessAlert';
+import FormField from '../FormField';
+import './styles.css';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
