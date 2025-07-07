@@ -41,6 +41,7 @@ public/
    npm start
    ```
 5. Open [http://localhost:3000](http://localhost:3000) in your browser
+6. Sign up with email password then login
 
 ### Available Scripts
 - `npm start` — Run the app in development mode
