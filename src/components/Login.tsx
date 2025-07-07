@@ -81,7 +81,7 @@ const Login: React.FC = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        bgcolor: 'grey.50',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
       }}
     >
       <Paper
@@ -98,8 +98,8 @@ const Login: React.FC = () => {
         <Typography variant="body2" color="text.secondary" align="center" sx={{ mb: 3 }}>
           {isSignup ? 'Create a new account' : 'Enter your credentials to access the dashboard'}
         </Typography>
-        <ErrorAlert error={error} />
-        <SuccessAlert message={success} />
+        <ErrorAlert error={error} onClose={() => setError('')} />
+        <SuccessAlert message={success} onClose={() => setSuccess('')} />
         <Box component="form" onSubmit={handleSubmit}>
           <FormField
             label="Email"

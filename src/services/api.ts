@@ -61,6 +61,7 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
+    // Handle 401 errors (token expired)
     if (error.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
@@ -99,6 +100,18 @@ api.interceptors.response.use(
       }
     }
 
+    // Handle network errors with retry logic
+    if (!error.response && error.code === 'NETWORK_ERROR') {
+      if (!originalRequest._retry) {
+        originalRequest._retry = true;
+        log.warn('Network error, retrying request', { url: originalRequest.url });
+        
+        // Wait 1 second before retry
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        return api(originalRequest);
+      }
+    }
+
     if (error.response && typeof error.response.data === 'string') {
       error.response.data = { message: error.response.data };
     }
@@ -108,7 +121,8 @@ api.interceptors.response.use(
       statusText: error.response?.statusText,
       data: error.response?.data,
       message: error.message,
-      url: error.config?.url
+      url: error.config?.url,
+      code: error.code
     });
     return Promise.reject(error);
   }

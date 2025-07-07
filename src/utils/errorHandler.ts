@@ -12,6 +12,110 @@ export interface ErrorResponse {
   data: ApiError;
 }
 
+export interface ErrorInfo {
+  type: 'network' | 'auth' | 'validation' | 'server' | 'unknown';
+  message: string;
+  userFriendlyMessage: string;
+  retryable: boolean;
+}
+
+/**
+ * Categorize errors for better handling
+ */
+export const categorizeError = (error: any): ErrorInfo => {
+  const errorMessage = error?.message || error?.toString() || 'Unknown error';
+  
+  // Network errors
+  if (errorMessage.includes('Failed to fetch') || 
+      errorMessage.includes('NetworkError') || 
+      errorMessage.includes('Network request failed') ||
+      errorMessage.includes('ERR_NETWORK') ||
+      errorMessage.includes('ERR_INTERNET_DISCONNECTED') ||
+      error.code === 'NETWORK_ERROR') {
+    return {
+      type: 'network',
+      message: errorMessage,
+      userFriendlyMessage: 'Network connection issue. Please check your internet connection and try again.',
+      retryable: true
+    };
+  }
+
+  // Authentication errors
+  if (errorMessage.includes('401') || 
+      errorMessage.includes('Unauthorized') ||
+      errorMessage.includes('Token expired') ||
+      errorMessage.includes('Invalid token') ||
+      error.response?.status === 401) {
+    return {
+      type: 'auth',
+      message: errorMessage,
+      userFriendlyMessage: 'Session expired. Please log in again.',
+      retryable: false
+    };
+  }
+
+  // Authorization errors
+  if (errorMessage.includes('403') || 
+      errorMessage.includes('Forbidden') ||
+      error.response?.status === 403) {
+    return {
+      type: 'auth',
+      message: errorMessage,
+      userFriendlyMessage: 'Access denied. You don\'t have permission to perform this action.',
+      retryable: false
+    };
+  }
+
+  // Validation errors
+  if (errorMessage.includes('400') || 
+      errorMessage.includes('Bad Request') ||
+      errorMessage.includes('Validation failed') ||
+      error.response?.status === 400 ||
+      error.response?.status === 422) {
+    return {
+      type: 'validation',
+      message: errorMessage,
+      userFriendlyMessage: 'Invalid data provided. Please check your input and try again.',
+      retryable: false
+    };
+  }
+
+  // Server errors
+  if (errorMessage.includes('500') || 
+      errorMessage.includes('Internal Server Error') ||
+      errorMessage.includes('502') ||
+      errorMessage.includes('503') ||
+      errorMessage.includes('504') ||
+      (error.response?.status && error.response.status >= 500)) {
+    return {
+      type: 'server',
+      message: errorMessage,
+      userFriendlyMessage: 'Server error. Please try again later.',
+      retryable: true
+    };
+  }
+
+  // Not found errors
+  if (errorMessage.includes('404') || 
+      errorMessage.includes('Not Found') ||
+      error.response?.status === 404) {
+    return {
+      type: 'validation',
+      message: errorMessage,
+      userFriendlyMessage: 'The requested resource was not found.',
+      retryable: false
+    };
+  }
+
+  // Default unknown error
+  return {
+    type: 'unknown',
+    message: errorMessage,
+    userFriendlyMessage: 'An unexpected error occurred. Please try again.',
+    retryable: true
+  };
+};
+
 /**
  * Extract meaningful error message from API response
  */
@@ -80,11 +184,14 @@ export const extractErrorMessage = (error: any): string => {
  * Handle API errors and log them appropriately
  */
 export const handleApiError = (error: any, context?: string): string => {
-  const errorMessage = extractErrorMessage(error);
+  const errorInfo = categorizeError(error);
   
   // Log the error with context
   log.error('API Error', {
-    message: errorMessage,
+    type: errorInfo.type,
+    message: errorInfo.message,
+    userFriendlyMessage: errorInfo.userFriendlyMessage,
+    retryable: errorInfo.retryable,
     originalError: error.message,
     status: error.response?.status,
     url: error.config?.url,
@@ -93,7 +200,7 @@ export const handleApiError = (error: any, context?: string): string => {
     responseData: error.response?.data
   });
   
-  return errorMessage;
+  return errorInfo.userFriendlyMessage;
 };
 
 /**
@@ -124,4 +231,54 @@ export const isTimeoutError = (error: any): boolean => {
  */
 export const isAuthError = (error: any): boolean => {
   return error.response?.status === 401 || error.response?.status === 403;
+};
+
+/**
+ * Check if error should be retried
+ */
+export const shouldRetry = (error: any): boolean => {
+  const errorInfo = categorizeError(error);
+  return errorInfo.retryable;
+};
+
+/**
+ * Get retry delay with exponential backoff
+ */
+export const getRetryDelay = (attempt: number): number => {
+  // Exponential backoff: 1s, 2s, 4s, 8s, max 10s
+  return Math.min(1000 * Math.pow(2, attempt - 1), 10000);
+};
+
+/**
+ * Retry function with exponential backoff
+ */
+export const retryWithBackoff = async <T>(
+  fn: () => Promise<T>,
+  maxAttempts: number = 3,
+  context?: string
+): Promise<T> => {
+  let lastError: any;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      lastError = error;
+      
+      if (!shouldRetry(error) || attempt === maxAttempts) {
+        throw error;
+      }
+
+      const delay = getRetryDelay(attempt);
+      log.warn(`Retrying operation (${attempt}/${maxAttempts})`, {
+        context,
+        delay,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+
+  throw lastError;
 }; 

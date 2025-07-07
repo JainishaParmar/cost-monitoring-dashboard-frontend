@@ -134,7 +134,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ filters, onFiltersChange 
 
   return (
     <div className="common-container">
-      <ErrorAlert error={error} />
+      <ErrorAlert error={error} onClose={() => setError(null)} />
 
       <FilterContainer>
         <CostFilters filters={filters} onFiltersChange={onFiltersChange} />

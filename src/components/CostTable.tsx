@@ -68,7 +68,7 @@ const CostTable: React.FC<CostTableProps> = ({ filters }) => {
 
   return (
     <>
-      <ErrorAlert error={error} />
+      <ErrorAlert error={error} onClose={() => setError(null)} />
 
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="cost records table">

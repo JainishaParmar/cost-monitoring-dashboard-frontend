@@ -1,22 +1,27 @@
-import { Alert, AlertProps } from '@mui/material';
+import React from 'react';
 
-interface SuccessAlertProps extends Omit<AlertProps, 'severity'> {
+interface SuccessAlertProps {
   message: string | null;
-  onClose?: () => void;
+  onClose: () => void;
 }
 
-const SuccessAlert = ({ message, onClose, ...alertProps }: SuccessAlertProps) => {
+const SuccessAlert: React.FC<SuccessAlertProps> = ({ message, onClose }) => {
   if (!message) return null;
 
   return (
-    <Alert 
-      severity="success" 
-      onClose={onClose}
-      sx={{ mb: 2 }}
-      {...alertProps}
-    >
-      {message}
-    </Alert>
+    <div className="success-alert">
+      <div className="success-content">
+        <div className="success-icon">
+          ✅
+        </div>
+        <div className="success-message">
+          <strong>Success:</strong> {message}
+        </div>
+        <button className="success-close" onClick={onClose}>
+          ×
+        </button>
+      </div>
+    </div>
   );
 };
 
